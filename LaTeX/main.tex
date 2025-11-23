@@ -1,0 +1,373 @@
+\documentclass{article}
+
+\input{Packages}
+\usepackage[backend=bibtex, sorting=none]{biblatex}
+\addbibresource{bibliography.bib}
+
+
+\title{Project 2: Experiments in STK}
+\author{Claudio Vestini}
+
+
+\begin{document}
+
+\maketitle
+
+\section{Introduction} \label{sec:intro}
+
+This document reports a study carried out on the Ansys software package Systems Tool Kit (STK)~\cite{STK:2025}, aimed at exploring the capabilities of the program through experiments with satellites and their orbits. The work was carried out using \texttt{STK 12.10} locally on a Razer Blade 14 (Windows 11) machine. The plots were generated using the \texttt{Report \& Graph Manager} toolbox included in the STK package.
+
+\section{Orbits} \label{sec:orbits}
+
+This section presents numerical experiments involving satellites in Earth-bound orbits. In general, STK is principally used to simulate (or propagate) orbital coordinates (elements) for satellites around celestial bodies. The simulation is carried out numerically via a \emph{propagator}, which finds solutions to the (differential) governing equations through discretising the domains and advancing in small steps. The governing equations used are sophisticated and often involve several additional influences beyond the standard perturbed ``two-body" problem discussed in class. For this section, we adopted the High Precision Orbit Propagator (HPOP) within the STK satellite objects. Major perturbations--which for an Earth-orbiting satellite include the non-sphericity of the Earth, lunisolar gravitational effects, atmospheric drag, and solar radiation pressure (SRP)--are all modelled with high fidelity by this propagator, which also includes Earth-motion effects.
+
+\subsection{Low Earth Orbit Vehicle} \label{subsec:LEO}
+
+The first experiment investigated the effects of varying the drag coefficient $C_d$ for satellites in circular, low-earth orbits (LEO). LEOs are defined as any orbit with a mean altitude above Earth's surface lower than \SI{2000}{\kilo\metre}, and are typically used for remote sensing and constellation communications. Since these orbits are closest to the Earth, they are the most influenced by atmospheric drag. The influence on a body with cross-sectional area $A_d$ moving at speed $U_\infty$ through a fluid with density $\rho$ is mathematically defined by the drag force $F_d$ (measured in Newtons) as $F_d := \frac{1}{2} \rho C_d  A_d U_\infty^2$. The drag coefficient $C_d = \frac{2F_d}{\rho A_d U_\infty ^2}$ measured the percentage of the total dynamic head $ \frac{1}{2} \rho U_\infty^2$ is converted to drag force experienced by the body, per unit area. It is a measure of how ``streamlined" the geometry of body is, and its numerical value typically ranges from $2.0$ to $2.5$ for LEO satellites\footnote{At LEO altitudes, the air around the satellite is in its free-molecular regime, thus it is possible for the value of drag coefficient to exceed 1.}.
+
+Our experiment involved the simulation of 5 satellites in identical \SI{300}{\kilo\metre}, \SI{45}{\degree} inclination, circular orbits around the Earth, under the influence of HPOP perturbations with varying values of drag coefficient $C_d$, ranging from $2$ to $10$ in uniform increments. We note that these values are largely higher than common values for typical LEO satellites, as the experiment was designed to test the efficacy of the HPOP propagator. Except for drag coefficient, all satellites had identical force models, including up to 21st-order Joint Gravity Model (JGM) perturbations, lunisolar influences, and spherical SRP accelerations (but no albedo radiation effects). The satellites were all given the same Area-to-Mass ratio of \SI{0.02}{\metre\squared\per\kilogram}. The altitude was indirectly tracked via the fixed orbital radius spherical element $r$ (note $h = r - R_E$, where $h$ is the altitude and $R_E = \SI{6378}{\kilo\metre}$ is the mean radius of the Earth), and the simulation was run from 11/01/2019, 12:00:00 UTC to 11/05/2019, 12:00:00 UTC. We note that, due to orbital decay induced by atmospheric drag, some of the simulations were truncated at an altitude of roughly \SI{80}{\kilo\metre}\footnote{The HPOP propagator is most appropriate at altitudes of \SI{120}{\kilo\metre} and above, as it does not fully model the transition to continuum flow. Thus, the results below this altitude are unlikely to give reliable results.}. The results of our simulation are displayed in Figure~\ref{fig:drag_coefficient}.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=\textwidth]{LaTeX/Figures/LEO_Vehicle_Drag_Decay_Comparison.png}
+    \caption{Comparison of the propagation of Orbital Radius (from fixed spherical elements) with time for satellites with values of drag coefficient ranging from 2 to 10. The satellites are labelled using the key ``Satellite\{$C_d$\}", where $C_d$ indicated the numerical value of drag coefficient for the given satellite.}
+    \label{fig:drag_coefficient}
+\end{figure}
+
+From Figure~\ref{fig:drag_coefficient} we observe a non-monotonic, downward drift in orbital radius for each satellite, with stronger effects for stronger values of drag coefficient. This reflects expectation, as satellites with higher $C_d$ will experience a higher drag force and therefore decay faster. Note that the four satellites with higher-than-realistic drag coefficients (Black with $C_d = 10$, Green with $C_d = 8$, Yellow with $C_d = 6$, Magenta with $C_d = 4$) all re-enter through the Kalman line (an altitude of $h = \SI{100}{\kilo\metre}$, or radius $r=\SI{6478}{\kilo\metre}$). The non-monotonic oscillations (at a natural frequency of roughly 90 minutes) are due to the orbital elongation due to the influence of drag: as the satellite's orbit is lowered, its eccentricity increases above 0, effectively changing the satellite's trajectory from a perfectly circular to an elliptical orbit. Thus, the satellite rises to apogee and falls to perigee with each iteration, giving rise to the oscillations in Figure~\ref{fig:drag_coefficient}. In fact, for an initial orbital semi-major axis of $a=\SI{6678}{\kilo\metre}$, the initial orbital period is calculated as $\tau = 2\pi \sqrt{a^3\mu^{-1}} \approx 90\text{min}35\text{s}$ (where $\mu \approx \SI{3.98e5}{\kilo\metre^3\second^{-2}}$ is Earth's constant of gravitation), which exactly corresponds to the natural frequency of the oscillations.
+
+\subsection{Medium Earth Orbit Vehicle} \label{subsec:MEO}
+This experiment involved the addition of a new satellite in a circular, medium Earth orbit (MEO). This orbit family, which is used to provide ground coverage with a communication constellation that uses fewer, slower moving satellites that can have orbital periods of about 6 hours and mean altitudes in the tens of thousands kilometers. Due to this high altitude, MEO satellites suffer less from non-sphericity and atmospheric effects, but are more exposed to SRP as they typically spend most of their orbital periods in sunlight.
+
+Our experiment considered a MEO satellite at an altitude of \SI{10,000}{\kilo\metre} and inclination of \SI{15}{\degree}, with a resulting initial orbital period of $\tau \approx 5\text{h}47\text{min}55\text{s}$. Using the HPOP propagator with the same settings as in Section~\ref{subsec:LEO}, with a drag coefficient of $C_d = 2$, we found this satellite to have a negligible orbital degradation, as is expected following the diminished effects of atmospheric drag at high altitudes (although a slight non-circularity of the orbit was observed). Keeping the LEO satellite with $C_d =2$, we computed the access windows between the two satellites (given that the simulation began with the MEO satellite directly above the LEO satellite) and found them to occur regularl at roughly \SI{50}{\minute} intervals separated by \SI{60}{\minute} Earth-obscured periods. Furhter, we computed the Lighting Times (i.e. when the satellite is illuminated by the Sun) for the MEO satellite. The results are displayed in Figure~\ref{fig:meo_solar}.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=\textwidth]{LaTeX/Figures/MEO_Satellite_Lighting_Times.png}
+    \caption{Lighting times for the MEO satellite. The satellite spends most of its orbital period in sunlight, with a few hours per day spent between umbra and penumbra.}
+    \label{fig:meo_solar}
+\end{figure}
+
+Figure~\ref{fig:meo_solar} confirms the expected solar illumination pattern for a typical MEO satellite. The satellite falls behind earth's shadow only a few hours per day, with most of its orbital period spent in sunlight and a few hours per day spent between umbra (predominantly) and penumbra (in the rapid transition behind Earth's shadow). This is an important consideration for this type of satellite, as it will be required to carry smaller batteries compared to a non Sun-synchronous, LEO satellite.
+
+\subsection{Highly Elliptical Orbit Vehicle} \label{subsec:HEO}
+
+This experiment analyses a satellite in a Highly Elliptical Orbit (HEO). HEOs are a class of orbit characterised by a low-altitude perigee and a very high-altitude apogee, resulting in a high eccentricity. For this study, we specifically model a \emph{Molniya} orbit, a semi-synchronous HEO originally conceived by the Soviet Union for high-latitude communications. A Molniya orbit has a unique set of orbital parameters: it possesses a high eccentricity, an orbital period of approximately 12 hours (half a sidereal day), and a very specific inclination of $i \approx 63.4^\circ$. This inclination is known as the \emph{critical inclination}, and its selection is deliberate: at this angle, the strong perturbations on the argument of perigee caused by the Earth's oblateness (the J2 effect) are nullified. This prevents the orbit's perigee from rotating over time. By setting the argument of perigee to $\omega = 270^\circ$, the orbit's apogee (its highest point) is fixed over the Northern Hemisphere. The satellite then spends the vast majority of its orbital period--upwards of 11 hours--hovering over high-latitude regions. During the cold war, this provided an ideal solution for soviet engineers to perform spying and surveillance operations over the United States. It is also helpful in the modern day for countries like Russia or Canada, which are poorly served by equatorial geostationary satellites. Satellites in Molniya orbits experience a varying perturbative environment: they are heavily influenced by lunisolar gravity at their high apogee, whilst also passing through the dense Van Allen radiation belts at perigee. Atmospheric drag, however, is only a significant factor during the brief passage through this low perigee, but can contribute towards causing a precession of the line of nodes.
+
+Our experiment considered a HEO satellite with two sets of orbital paramteters: the first is an STK-default Molniya orbit, and the second is at \SI{40000}{\kilo\metre} apogee altitude, \SI{1000}{\kilo\metre} perigee altitude, and \SI{40}{\degree} inclination. The two sets of orbital elements are summarised in Table~\ref{tab:heo_params}.
+
+\begin{table}[h!]
+\centering
+\caption{Orbital element sets for the HEO vehicle experiment. Epoch: 1 Nov 2019, 12:00:00.000 UTC.}
+\label{tab:heo_params}
+\begin{tabular}{l|c|c|c}
+\hline
+\textbf{Parameter} & \textbf{Set 1 (Molniya)} & \textbf{Set 2 (HEO)} & \textbf{Units} \\
+\hline
+Semimajor Axis ($a$) & 26553.4 & 26878.0 & \si{\kilo\metre} \\
+Eccentricity ($e$) & 0.740969 & 0.725482 & -- \\
+Inclination ($i$) & 63.4 & 40.0 & \si{\degree} \\
+Argument of Perigee ($\omega$) & 270 & 270 & \si{\degree} \\
+RAAN ($\Omega$) & 120.485 & 120.485 & \si{\degree} \\
+True Anomaly ($f$) & 0 & 0 & \si{\degree} \\
+\hline
+\end{tabular}
+\end{table}
+
+Using the first set of orbital elements from Table~\ref{tab:heo_params}, the ground track was observed to lie above the United States for the majority of the orbital period, scanning the entire country from south to north before tracing out a wide, U-shaped path over the southern pacific ocean during perigee passage. In the subsequent revolution, the Earth had rotated beneath the Molniya satellite, shifting its apogee projection to lie above Siberia. The line of apsides ($\omega$) was fixed in place, as expected at the critical inclination angle. The line of nodes was observed to precess due to the influence of perturbations, shifting the projected location of apogee westward by roughly \SI{135}{\kilo\metre} with each revolution\footnote{It was found that the \texttt{J2Perturbation} and \texttt{J4Perturbation} propagators did not produce this westward shift, whereas the \texttt{HPOP} propagator did produce it even with drag and SRP turned off. We investigated the order of the JGM, and found that changing this from 1 to 2 caused the shift to appear. Thus, the J2 factor causes the effect, but not through precession of the line of nodes (otherwise the \texttt{J2Perturbation} and \texttt{J4Perturbation} propagators would have also produced the drift). Additionally, raising the altitude of perigee caused the drift to become more dramatic. We hypothesise that the westward drift is caused by an orbital resonance effect: Molniya orbits give repeated ground tracks if the orbital period is approximately one half of a sidereal day, resulting in a half-rotation of the earth per period of the satellite, and thus in a repeating apogee ground track over two distinct locations (e.g. the U.S. and Siberia). The \texttt{HPOP} propagator, unlike the other two, computes the effect of the J2 perturbation on the orbital period. Thus, for a different inclination to that of the default Molniya orbit, the period is no longer synchronised to be one half of a sidereal day and the westward drift is observed. SRP and atmospheric drag have no effect on this. This hypothesis explains why it is the J2 effect that causes the drift, but the \texttt{J2Perturbation} and \texttt{J4Perturbation} propagators do not capture this as they only compute secular drift of the line of nodes and line of apsides, and not the period perturbations.}. On the other hand, using the second set of elements from Table~\ref{tab:heo_params} revealed a softer, bow-tie shaped ground track with lower-latitude apogee projection, which exhibited a similar westward drift in the apogee location over subsequent orbits (precession of the line of nodes). This time, the line of apsides was observed to rotate due to the inclination no longer cancelling the J2 perturbations on this orbital parameter. Computing the access of this HEO satellite to the other two (LEO and MEO), we found that the HEO and MEO satellite had almost continuous line of sight throughout the mission, whereas HEO and LEO had intermittent line of sight with a frequency of Earth-obscurations equal to the inverse of the orbital period of the LEO satellite. This is a helpful property as the HEO satellite can be used to ``bridge" the connection between the LEO and MEO satellites (as the HEO to LEO access complemented the few windows of Earth obscuration between HEO and MEO).
+
+\subsection{Geosynchronous Orbit Vehicle} \label{subsec:GSO}
+
+Our final experiment considers a satellite in a Geosynchronous Earth Orbit (GSO). A geosynchronous orbit is defined by having an orbital period of exactly one sidereal day (approximately 23 hours, 56 minutes, 4 seconds), which corresponds to an altitude of approximately \SI{35786}{\kilo\metre}. This synchronicity means the satellite returns to the same apparent position in the sky after one full Earth rotation. A \emph{geostationary} orbit (GEO) is the most famous and commercially valuable sub-class of GSO. This specific case requires the orbit to be both circular ($e \approx 0$) and to lie directly above the Earth's equator ($i = 0^\circ$). This unique combination causes the satellite to appear perfectly stationary relative to an observer on the ground, making it ideal for fixed-point telecommunications. A minimum of three such satellites are needed to have full \SI{360}{\degree} coverage of the earth. At this extreme altitude, atmospheric drag is entirely negligible. For a general GSO, the dominant perturbations are third-body lunisolar gravity and Solar Radiation Pressure (SRP); for the specific GEO case, the zero equatorial inclination also nullifies $J_2$ perturbations, which are in any case very small due to the great distance from the earth.
+
+Our experiment considered both a GEO and GSO set of orbital parameters, with a longitude of the subsatellite point equal to \SI{-75}{\degree} in both cases. Starting at zero inclination, the GEO satellite appeared to be completely fixed in the sky in absence of perturbations (we used the \texttt{J4Perturbation} propagator). Adding perturbations with the \texttt{HPOP} propagator introduced a small north-south, westward drifting (by roughly \SI{6.5}{\kilo\metre} over the four-day mission) wobble with a 1-day natural frequency, as shown in Figure~\ref{fig:geo_wobble}. The wobble and drift are promoted by lunisolar perturbations (with SRP only causing a slight ``tilt" of the wobble angle in the anticlockwise direction), and the drift effect is mitigated by J2 perturbations (the J2 acts in the opposite direction to lunisolar perturbations for drift, shortening the westward drift by some \SI{10}{\kilo\metre}). Shifting the inclination to \SI{-4}{\degree}, the now GSO satellite traced out a westward drifting, \SI{880}{\kilo\metre} wide ``figure-8" centered at the original hovering point of the GEO satellite, as expected. The overall drift distance was comparable to that of the GEO satellite in Figure~\ref{fig:geo_wobble}. As a final step, we added a ground facility located at \SI{32.8167}{\degree} North, \SI{-117.133}{\degree} West (which corresponds to $32\text{deg}49\text{min}$ latitude, $-117\text{deg}08\text{min}$ longitude, or the location of Marine Corps Air Station Miramar (MCAS Miramar), a military airport in San Diego, California), shown in Figure~\ref{fig:san_diego_facility}.
+
+\begin{figure}[h!]
+    \centering
+    
+    \begin{subfigure}[b]{0.49\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{LaTeX/Figures/GEO_Wobble.png} % Replace with your GEO wobble screenshot path
+        \caption{GEO satellite "wobble".}
+        \label{fig:geo_wobble}
+    \end{subfigure}
+    \hfill % This adds horizontal space between the subfigures
+    \begin{subfigure}[b]{0.49\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{LaTeX/Figures/San_Diego_Ground_Facility.png} % Replace with your San Diego screenshot path
+        \caption{Ground facility in San Diego.}
+        \label{fig:san_diego_facility}
+    \end{subfigure}
+    
+\end{figure}
+
+Using the facility from Figure~\ref{fig:san_diego_facility}, we were able to compute the access to all four satellites (LEO, MEO, HEO and GEO) for the entire duration of the mission. The results are plotted in Figure~\ref{fig:access_times}.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=\textwidth]{LaTeX/Figures/Facility-Facility_San_Diego-To-Satellite-GEO_Satellite_Access.png}
+    \caption{Access times for the San Diego Facility to all four satellites. From top to bottom: MEO satellite (blue), LEO satellite (magenta), HEO satellite (green), GSO satellite (red).}
+    \label{fig:access_times}
+\end{figure}
+
+As expected, there is a continuous line of sight between the GSO satellite and the facility (ad the facility is in this satellite's field of view, which stays roughly fixed throughout the mission). The HEO satellite is able to communicate with the facility for about half of its orbital period, whereas the window is reduced to one third of the period for the MEO satellite. The LEO satellite receives the least coverage, passing in range of the station for brief windows (lasting a handful of minutes) before quickly disappearing behind the horizon. There are two windows of simultaneous access to all four satellites. A snapshot of the ground-track view for first of these two windows, which begins at 13:57:27.181,3 UTC on 1 Nov 2019, is displayed in Figure~\ref{fig:snapshot_access}. This figure also shows the effective ground tracks for one orbital period (whose duration is different for different satellites) of the four satellites. These appear as described in the previous sections. We can see dashed lines emanating from the Facility, which connect it to each of the satellites. Confirming the access to a line of sight are four boxes which surround each of the satellites' icons.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=\textwidth]{LaTeX/Figures/Facility_Access.png}
+    \caption{Snapshot of 2D STK view at the moment of simultaneous access between the San Diego facility and the four satellites. The satellite ground tracks are coloured according to: LEO satellite (purple), MEO satellite (red), HEO satellite (white), GSO satellite (orange), plus Facility (blue).}
+    \label{fig:snapshot_access}
+\end{figure}
+
+\newpage
+\subsection{Illustrating The Drag Paradox} \label{subsec:drag_paradox}
+
+A final topic of interest, highly relevant to the LEO decay analysed in Section~\ref{subsec:LEO}, is the \emph{atmospheric drag paradox}. This is a counter-intuitive phenomenon in orbital mechanics where a satellite subjected to a continuous braking force---in this case, atmospheric drag---will, as a direct consequence, experience an increase in its instantaneous orbital velocity. This effect is a fundamental result of the laws governing orbital energy. Drag, a non-conservative force, removes total orbital energy from the system. As the total energy of a bound orbit is defined by its semi-major axis ($E = -\frac{\mu m}{2a}$), this loss of energy mandates a decrease in the semi-major axis, causing the orbit to decay. From the \emph{vis-viva} equation, $v^2 = \mu (\frac{2}{r} - \frac{1}{a})$, a decrease in both the semi-major axis ($a$) and radius ($r$) necessitates a corresponding increase in the orbital velocity ($v$). Therefore, the satellite is paradoxically forced to accelerate as it spirals downwards into a lower, and consequently faster, orbit.
+
+To illustrate this paradox, our experiment involved two satellites initialised in identical, circular \SI{300}{\kilo\metre} LEOs. The first satellite, serving as a control, was propagated using the default \texttt{J4Perturbation} propagator, which does not model atmospheric drag. The second satellite was propagated using HPOP, with identical settings except for the inclusion of a significant drag force, which was modelled by setting the Area-to-Mass ratio to a high value of \SI{1.0}{\metre\squared\per\kilogram}. The scenario was propagated for a 24-hour period beginning on 00:00:00.0000 UTC on 20 September 2003 (my birth date :) ).
+
+The results of the simulation provided a clear visualisation of the paradox. When animating the scenario, the HPOP satellite with high drag was observed to slightly "pull ahead" of the control satellite, confirming its constantly increasing instantaneous orbital velocity, as expected. Figure~\ref{fig:drg_radius} plots the orbital radius, showing the control satellite (green) maintaining its orbital radius steady at the initial value, while the \texttt{HPOP} satellite (black) decays rapidly, re-entering the atmosphere in less than four and a half hours. This time, there is only one orbital oscillation in the orbital decay (see Section~\ref{subsec:LEO} for a full discussion) as the satellite plunges down to Earth's surface after one full orbital period.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=\textwidth]{LaTeX/Figures/Drag_Paradox_Radius.png}
+    \caption{Plot of Orbital Radius (\si{\kilo\metre}) over time for the \texttt{HPOP} satellite (black) and \texttt{J4Propagation} satellite (green).}
+    \label{fig:drg_radius}
+\end{figure}
+
+Figure~\ref{fig:drg_orbital_elements} provides a deeper insight by plotting the classical orbital elements. It shows the semi-major axis (red) of the drag-perturbed satellite decreasing, a
+direct consequence of energy loss. This decrease in $a$, as per the \emph{vis-viva} equation, directly results in a higher average orbital velocity. This confirms the paradox: the satellite under the "braking" force of drag does indeed accelerate as its orbit shrinks.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=\textwidth]{LaTeX/Figures/Drag_Paradox_Orbital_Elements.png}
+    \caption{Comparison of the J200 Classical Orbital Elements for the \texttt{HPOP} satellite and the \texttt{J4Propagation} satellite (various colours).}
+    \label{fig:drg_orbital_elements}
+\end{figure}
+
+\section{Orbit Transfers} \label{sec:orbit_transfers}
+
+This section presents numerical experiments involving orbit transfers. For this section, we adopted the \texttt{Astrogator} STK propagator, which models orbits that can leave the gravitational sphere of influence of a given celestial body.
+
+\subsection{Hohmann Transfer} \label{subsec:hohmann}
+
+A common and fundamental orbital manoeuvre is the \emph{Hohmann transfer}, a method for changing a satellite's orbital altitude. It is a classic two-impulse manoeuvre designed to move a spacecraft between two co-planar, circular orbits in the most fuel-efficient manner possible (in terms of total $\Delta V$). The transfer is achieved via a single elliptical orbit, often called the transfer orbit, which is tangential to both the initial and final circular orbits. The first propulsive burn is a prograde impulse (in the direction of velocity) applied at the initial, lower orbit. This burn increases the satellite's energy and raises its apoapsis to match the altitude of the final, higher orbit. Upon reaching this apoapsis, a second prograde burn is executed to circularise the orbit at the new, higher altitude, completing the transfer.
+
+\subsubsection{Theoretical Calculation}
+
+Before implementing the manoeuvre using \texttt{Astrogator}, the theoretical values for the transfer were calculated analytically. Given an initial altitude $h_1 = \SI{500}{\kilo\metre}$ and a final altitude $h_2 = \SI{96792}{\kilo\metre}$, and using Earth's mean radius $R_E = \SI{6378}{\kilo\metre}$, the initial and final orbital radii are $r_1 = \SI{6878}{\kilo\metre}$ and $r_2 = \SI{103170}{\kilo\metre}$, respectively.
+
+The velocities in the initial ($v_{\circ,1}$) and final ($v_{\circ,2}$) circular orbits are found using $v_{\circ} = \sqrt{\mu/r}$. The semi-major axis of the elliptical transfer orbit is $a_t = (r_1 + r_2)/2$. The velocities at the perigee ($v_{t,1}$) and apogee ($v_{t,2}$) of this transfer orbit are found using the \emph{vis-viva} equation, $v^2 = \mu (\frac{2}{r} - \frac{1}{a_t})$. The two required impulses, $\Delta v_1$ and $\Delta v_2$, are then:
+\begin{align*}
+\Delta v_1 &= v_{t,1} - v_{\circ,1} = \sqrt{\mu \left(\frac{2}{r_1} - \frac{1}{a_t}\right)} - \sqrt{\frac{\mu}{r_1}} \\
+\Delta v_2 &= v_{\circ,2} - v_{t,2} = \sqrt{\frac{\mu}{r_2}} - \sqrt{\mu \left(\frac{2}{r_2} - \frac{1}{a_t}\right)}
+\end{align*}
+The time of flight is half the period of the transfer orbit:
+$$ \Delta t = \pi \sqrt{\frac{a_t^3}{\mu}} $$
+
+Using $\mu \approx \SI{3.98e5}{\kilo\metre\cubed\per\second\squared}$ (as established in Section~\ref{subsec:LEO}) and the radii above, the intermediate calculations yield $a_t = \SI{55024}{\kilo\metre}$, $v_{\circ,1} \approx \SI{7.608}{\kilo\metre\per\second}$, $v_{\circ,2} \approx \SI{1.964}{\kilo\metre\per\second}$, $v_{t,1} \approx \SI{10.416}{\kilo\metre\per\second}$, and $v_{t,2} \approx \SI{0.696}{\kilo\metre\per\second}$. This results in the following theoretical mission requirements:
+\begin{itemize}
+    \item First Burn ($\Delta v_1$): $\approx \SI{2.808}{\kilo\metre\per\second}$
+    \item Second Burn ($\Delta v_2$): $\approx \SI{1.268}{\kilo\metre\per\second}$
+    \item Total $\Delta V$: $\approx \SI{4.076}{\kilo\metre\per\second}$
+    \item Transfer Time: $\Delta t \approx \SI{64275}{\second}$ (or $\approx \SI{17.85}{\hour}$)
+\end{itemize}
+
+\subsubsection{STK Implementation}
+
+We attempted two methods to implement this manoeuvre in \texttt{Astrogator}. The first method involved ``hard-coding" the impulsive manoeuvres using the exact \SI{2.808}{\kilo\metre\per\second} and \SI{1.268}{\kilo\metre\per\second} $\Delta v$ values derived from the theoretical two-body calculation. This approach proved unsuccessful. The theoretical values do not account for the perturbative forces (e.g., Earth's oblateness, lunisolar gravity) included in the STK propagator. These perturbations, though small, compound over the long \SI{17.8}{\hour} transfer, causing the satellite to miss its target altitude and velocity, as illustrated in Figure~\ref{fig:hohmann_failed}.
+% The manoeuvre summary (\texttt{Failed\_Hohmann\_Sat\_Maneuver\_Summary.csv}) for this attempt confirms the total $\Delta V$ was exactly the theoretical \SI{4076}{\metre\per\second}.
+
+A second, more robust attempt was made using \texttt{Astrogator}'s built-in targeter. This approach does not rely on pre-calculated values. Instead, we defined the mission segments (an initial state, two manoeuvres, and a transfer propagate) and set specific orbital parameters as goals. The targeter was configured to solve for the $\Delta v$ of the first burn required to achieve a transfer orbit with an apogee altitude of \SI{96792}{\kilo\metre}. It was then configured to solve for the second burn's $\Delta v$ to achieve a final eccentricity of 0. This method, which actively accounts for the full \texttt{HPOP} force model during its calculations, was successful, as shown in Figure~\ref{fig:hohmann_success}.
+
+\begin{figure}[h!]
+    \centering
+    
+    \begin{subfigure}[b]{0.49\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{LaTeX/Figures/Failed_Hohmann_Transfer.png.png}
+        \caption{The 'hard-coded' transfer. The target orbit (red) is not complete. This is likely due to a mismatch between calculated transfer real transfer times.}
+        \label{fig:hohmann_failed}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.49\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{LaTeX/Figures/Hohmann_Transfer.png.png} 
+        \caption{The successful targeter-based transfer. The initial (green), transfer (cyan), and final (red) orbits are perfectly tangential.}
+        \label{fig:hohmann_success}
+    \end{subfigure}
+    
+\end{figure}
+
+The numerical results from this successful simulation provide the answers to the mission planning questions. The Hohmann transfer, defined as the time between the two burns, took \textbf{17 hours, 50 minutes, and 26 seconds} to complete. The total $\Delta V$ required for this manoeuvre was \textbf{$\SI{4075.72}{\metre\per\second}$ ($\SI{4.076}{\kilo\metre\per\second}$)}, which was composed of an initial burn of $\SI{2808.41}{\metre\per\second}$ and a second, circularisation burn of $\SI{1267.31}{\metre\per\second}$. The total fuel consumed was $\SI{6299.26}{\kilo\gram}$.
+
+These results were obtained after re-running the simulation with a tighter targeter tolerance for eccentricity (0.001 vs. the previous 0.1). With this high-precision tolerance, the total $\Delta V$ computed by the high-fidelity targeter is \textbf{$\SI{4075.72}{\metre\per\second}$}, which is almost identical to the theoretical two-body calculation of $\SI{4076}{\metre\per\second}$. This demonstrates that for this manoeuvre, the perturbative effects from lunisolar gravity over the $\approx \SI{18}{\hour}$ transfer are minimal and largely self-cancelling. The previous, lower $\Delta V$ reading ($\approx \SI{4011}{\metre\per\second}$) was an artefact of the loose tolerance, which allowed the targeter to ``solve" the problem with a non-zero final eccentricity, thus requiring less fuel.
+
+
+\subsection{Bielliptic Transfer} \label{subsec:bielliptic}
+
+The \emph{bielliptic transfer} is an alternative method, often contrasted with the Hohmann, for moving a spacecraft between two co-planar, circular orbits. Unlike the Hohmann's two-burn sequence, the bi-elliptic transfer is a three-impulse manoeuvre. The first prograde burn propels the satellite from its initial circular orbit into a highly elliptical transfer orbit, with an apogee radius ($r_b$) deliberately chosen to be much larger than the final target radius ($r_2$). At this distant apogee, a second prograde burn is applied; this impulse raises the perigee of the transfer orbit from $r_1$ to $r_2$. The satellite then coasts back inwards to this new perigee (at radius $r_2$), where a third, retrograde impulse is required to slow the spacecraft and circularise it into the final target orbit. While this method invariably results in a significantly longer transfer time, it can be more fuel-efficient (requiring less total $\Delta V$) than a Hohmann transfer, particularly when the ratio of the final to initial orbital radius is very large ($r_2/r_1 > \sim 11.94$).
+
+\subsubsection{Theoretical Calculation}
+
+Before implementing the manoeuvre in \texttt{Astrogator}, the theoretical values for the bi-elliptic transfer were calculated analytically. This plan uses the same initial ($r_1 = \SI{6878}{\kilo\metre}$) and final ($r_2 = \SI{103170}{\kilo\metre}$) circular orbits, but adds an intermediate apogee radius $r_b$ set to twice the final radius, $r_b = 2 \times r_2 = \SI{206340}{\kilo\metre}$.
+
+This transfer requires two separate transfer ellipses. The first, $TE_1$, has a semi-major axis $a_{t1} = (r_1 + r_b)/2$. The second, $TE_2$, has a semi-major axis $a_{t2} = (r_2 + r_b)/2$. The velocities in the initial ($v_{\circ,1}$) and final ($v_{\circ,2}$) circular orbits are calculated as before. The \emph{vis-viva} equation, $v^2 = \mu (\frac{2}{r} - \frac{1}{a})$, is used to find the velocities at the perigee and apogee of both transfer ellipses.
+The three required impulses, $\Delta v_1$, $\Delta v_2$, and $\Delta v_3$, are then:
+\begin{align*}
+\Delta v_1 &= v_{t1,p} - v_{\circ,1} = \sqrt{\mu \left(\frac{2}{r_1} - \frac{1}{a_{t1}}\right)} - \sqrt{\frac{\mu}{r_1}} \\
+\Delta v_2 &= v_{t2,a} - v_{t1,a} = \sqrt{\mu \left(\frac{2}{r_b} - \frac{1}{a_{t2}}\right)} - \sqrt{\mu \left(\frac{2}{r_b} - \frac{1}{a_{t1}}\right)} \\
+\Delta v_3 &= v_{\circ,2} - v_{t2,p} = \sqrt{\frac{\mu}{r_2}} - \sqrt{\mu \left(\frac{2}{r_2} - \frac{1}{a_{t2}}\right)}
+\end{align*}
+The total time of flight is the sum of half the periods of each transfer orbit:
+$$ \Delta t = \pi \sqrt{\frac{a_{t1}^3}{\mu}} + \pi \sqrt{\frac{a_{t2}^3}{\mu}} $$
+
+Using $\mu \approx \SI{3.98e5}{\kilo\metre\cubed\per\second\squared}$ and the radii above, the intermediate calculations yield $a_{t1} \approx \SI{106609}{\kilo\metre}$ and $a_{t2} \approx \SI{154755}{\kilo\metre}$. This results in the following theoretical mission requirements:
+\begin{itemize}
+    \item First Burn ($\Delta v_1$): $\approx \SI{2.970}{\kilo\metre\per\second}$
+    \item Second Burn ($\Delta v_2$): $\approx \SI{0.783}{\kilo\metre\per\second}$
+    \item Third Burn ($\Delta v_3$): $\approx \SI{-0.304}{\kilo\metre\per\second}$ (retrograde)
+    \item Total $\Delta V$ (sum of magnitudes): $\approx \SI{4.057}{\kilo\metre\per\second}$
+    \item Transfer Time: $\Delta t \approx \SI{1506484}{\second}$ (or $\approx \SI{418.5}{\hour}$)
+\end{itemize}
+Theoretically, this confirms that for this $r_2/r_1 \approx 15$ ratio, the bi-elliptic transfer is slightly more fuel-efficient than the Hohmann transfer (saving $\approx \SI{19}{\metre\per\second}$), but at the cost of a dramatically larger transfer time (approximately 17.4 days versus 17.8 hours).
+
+\subsubsection{STK Implementation}
+
+Learning from the previous experiment, the bi-elliptic transfer was implemented directly using \texttt{Astrogator}'s built-in targeter, forgoing any attempt to use the pre-calculated theoretical values. The manoeuvre was constructed as a three-burn sequence using the \texttt{HPOP} propagator. The first target sequence solved for a burn to achieve an apogee altitude of $\SI{206340}{\kilo\metre}$ (twice the final radius), followed by a propagation segment to stop at this apogee. The second burn, executed at this distant apogee, targeted a perigee altitude of $\SI{96792}{\kilo\metre}$, followed by a long coast back inwards to this new perigee. The final target sequence solved for the third burn, targeting an eccentricity of 0 (with a 0.001 tolerance) to circularise the orbit. This successful three-burn sequence is visualised in Figure~\ref{fig:bielliptic_transfer}.
+
+\begin{figure}[h!]
+    \centering
+    
+    \begin{subfigure}[b]{0.49\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{LaTeX/Figures/Bielliptic_Transfer.png}
+        \caption{The successful targeter-based bielliptic transfer. The initial (green), first transfer (cyan), second transfer (white), and final (red) orbits are shown.}
+        \label{fig:bielliptic_transfer}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.49\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{LaTeX/Figures/Both_Transfers.png.png} 
+        \caption{The Hohmann (inner) and bielliptic (outer) transfers superposed on the same STK visual. We can see they start and finish at the same orbits.}
+        \label{fig:both_transfers}
+    \end{subfigure}
+
+\end{figure}
+
+The total transfer, from the first burn to the third, took \textbf{5 days, 12 hours, 15 minutes, and 44 seconds}. The total $\Delta V$ required for this manoeuvre was \textbf{$\SI{4056.27}{\metre\per\second}$ ($\SI{4.056}{\kilo\metre\per\second}$)}, composed of a first burn of $\SI{2969.87}{\metre\per\second}$, a second burn of $\SI{782.72}{\metre\per\second}$, and a third, retrograde burn of $\SI{-303.68}{\metre\per\second}$. The total fuel consumed was $\SI{6334.74}{\kilo\gram}$. We turn our attention to a comparison with the Hohmann transfer. The two transfers are plotted on the same visual in Figure~\ref{fig:both_transfers}, and the orbital radii of both satellites for their transfer periods are plotted in Figure~\ref{fig:transfers_radii}. Contrasting numerical results, we have:
+
+\begin{itemize}
+    \item Hohmann Transfer: $\SI{4.076}{\kilo\metre\per\second}$, $\SI{6299.26}{\kilo\gram}$ fuel, and \SI{17.8}{\hour} total time.
+    \item Bi-elliptic Transfer: $\SI{4.056}{\kilo\metre\per\second}$, $\SI{6334.74}{\kilo\gram}$ fuel, and $\SI{132.26}{\hour} \approx \SI{5.5}{\day}$ total time.
+\end{itemize}
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=\linewidth]{LaTeX/Figures/Transfers_Comparison.png}
+    \caption{Orbital radius (\si{\kilo\metre}) for both the Hohmann transfer (green) and bielliptic transfer (black).}
+    \label{fig:transfers_radii}
+\end{figure}
+
+Comparing these results, the trade-off is precisely as theory predicted. The bi-elliptic transfer is slightly more fuel-efficient, saving \textbf{$\approx \SI{20}{\metre\per\second}$} in $\Delta V$ compared to the Hohmann transfer. This is because the $r_2/r_1 \approx 15$ ratio is large enough (greater than 11.94) to realise this advantage. However, this fuel saving is minimal, and the STK simulation shows the bi-elliptic's total fuel consumption is slightly \emph{higher} ($\SI{6334.74}{\kilo\gram}$ vs $\SI{6299.26}{\kilo\gram}$). Furthermore, this negligible saving is dwarfed by the prohibitive time cost, which increased from less than a day to nearly a week. As a mission planner, the Hohmann transfer is still the clear and obvious choice, unless the $\approx \SI{20}{\metre\per\second}$ $\Delta V$ saving was absolutely critical.
+
+\subsection{Inclination Change} \label{subsec:inclination}
+
+A third class of orbital manoeuvre involves changing the \emph{inclination} of the satellite's orbit. This is a propulsive manoeuvre designed to alter the tilt of the orbital plane relative to the Earth's equatorial plane, without necessarily changing the orbit's altitude or shape. Such a manoeuvre is fundamentally different from in-plane burns (like the Hohmann transfer) as it requires a significant thrust component \emph{normal} (perpendicular) to the orbital plane. These manoeuvres are critical for mission profiles that require high-latitude access, most notably for placing satellites into polar or near-polar orbits. Polar orbits are essential for Earth observation, remote sensing, and reconnaissance, as their north-south path combined with the Earth's east-west rotation allows a satellite to scan the entire surface of the globe over a period of days.
+% However, it is difficult to launch a satellite directly into this type of orbit, as most launch centres are located near the equator to make use of the ``carousel" effect of the spinning globe. Thus, these orbits are often initially launched with a lower inclination and subsequently raised.
+
+To model this manoeuvre, a satellite was initialised in a \SI{500}{\kilo\metre} circular, equatorial orbit ($i = 0^\circ$). Using \texttt{Astrogator}, a single manoeuvre segment was added. The targeter was configured to solve for the necessary impulse to achieve a final inclination of $\SI{90}{\degree}$, while keeping the eccentricity constant at zero. The HPOP propagator then solved for the required $\Delta V$. The resulting manoeuvre, a single burn executed the pacific equatorial node, is visualised in Figure~\ref{fig:polar_transfer}, and the inclination change in Figure~\ref{fig:inclination_plot}.
+
+\begin{figure}[h!]
+    \centering
+    
+    \begin{subfigure}[b]{0.435\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{LaTeX/Figures/Polar_Transfer.png}
+        \caption{Inclination change manoeuvre in STK, with original (green) and final (red) orbits.}
+        \label{fig:polar_transfer}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.555\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{LaTeX/Figures/Polar_Sat_Inclination.png} 
+        \caption{Plot of inclination over time. We can see that the entire manoeuvre is completed in less than \SI{45}{\second}.}
+        \label{fig:inclination_plot}
+    \end{subfigure}
+
+\end{figure}
+
+The total $\Delta V$ for this 90-degree inclination change was \textbf{$\SI{10765.33}{\metre\per\second}$ ($\SI{10.77}{\kilo\metre\per\second}$)} over a time period of just \SI{45}{\second}. This $\Delta V$ is astronomically large. It is more than 2.5 times the \emph{entire} $\Delta V$ required for the Hohmann transfer to $\SI{96792}{\kilo\metre}$ ($\SI{4.076}{\kilo\metre\per\second}$). This value is consistent with the theoretical calculation for a pure inclination change, $\Delta v = 2 v \sin(\Delta i / 2)$. For our satellite in a \SI{500}{\kilo\metre} orbit, $v \approx \SI{7.608}{\kilo\metre\per\second}$, yielding a theoretical $\Delta v = 2 \times 7.608 \times \sin(90^\circ/2) \approx \SI{10.76}{\kilo\metre\per\second}$, which is an excellent match. This illustrates that changing the direction of the velocity vector is extraordinarily expensive in terms of propellant, which is why mission planners go to great lengths to launch satellites directly into their target inclination, rather than performing large plane changes in LEO. To perform this change more efficiently, the satellite would first have to burn into a highly elliptical transfer orbit. At the apogee of this orbit, the orbital velocity $v$ is minimal, which would drastically reduce the $\Delta V$ required for the plane change burn before a final burn re-circularises the orbit. However, implementing such a manoeuvre was deemed to be beyond the scope of this project.
+
+\subsection{Sphere of Influence} \label{sec:soi}
+
+The final experiment investigates the concept of the Sphere of Influence (SOI). When a satellite travels between planets, it is simultaneously influenced by the gravity of the Sun, its departure planet, its target planet, and all other bodies in the solar system. Solving this full n-body problem is computationally intensive. The SOI provides a practical solution by defining a volume of space around a planet where that planet's gravitational influence is considered dominant over the Sun's. This concept forms the basis of the so-called \emph{patched-conic approximation}. A trajectory is broken into segments: within Earth's SOI, the satellite is modelled as being in a simple two-body orbit around the Earth. Once it crosses the SOI boundary, its gravity model is ``patched" or switched, and it is then considered to be in a two-body orbit around the Sun. This experiment uses \texttt{Astrogator} to test the validity of this approximation by comparing a fully heliocentric (n-body) propagator against a manually patched-conic trajectory, using different radii for the patch boundary. The radius of Earth's SOI can be approximated using the formula (see lecture notes):
+$$ r_{SOI} = r_{planet} \left( \frac{M_{planet}}{M_{sun}} \right)^{2/5} $$
+where $r_{planet}$ is the mean distance of the planet from the Sun. We use the following astronomical values for these constants:
+\begin{itemize}
+    \item $r_{planet}$ (1 AU): $= \SI{1.496e8}{\kilo\metre}$
+    \item $M_{planet}$ (Earth): $= \SI{5.972e24}{\kilo\gram}$
+    \item $M_{sun}$ (Sun): $= \SI{1.989e30}{\kilo\gram}$
+\end{itemize}
+Substituting into the equation, we obtain a radius for Earth's sphere of influence of $r_{SOI} \approx \SI{924540}{\kilo\metre}$.
+
+We carried out an experiment in \texttt{Astrogator} to evaluate the efficacy of using a cheap patched-conic model to propagate the orbits of satellites around the sun, benchmarking against the built-in Heliocentric STK propagator. We set up four satellites with bimodal propagation sequences and switching radii of \SI{50000}{\kilo\metre}, \SI{200000}{\kilo\metre}, \SI{1e7}{\kilo\metre}, and $r_{SOI}$, respectively. A fifth satellite was set up to use the Heliocentric propagator. All satellites were propagated outwards from the Earth, and their orbits are shown in Figure~\ref{fig:heliocentric_orbits}. To avoid clutter, separate plots for the $r_{SOI}$ satellite are given in Appendix~\ref{appendix}.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=\linewidth]{LaTeX/Figures/All_Orbits.png.png}
+    \caption{Orbits of the \SI{50000}{\kilo\metre} (cyan), \SI{200000}{\kilo\metre} (purple), and \SI{1e7}{\kilo\metre} (red) patched-conic satellites, benchmarked against the Heliocentric (green) satellite. The orbit of the Earth around the Sun is also plotted (dashed line). The Sun is plotted as the bright spot in the middle of the picture.}
+    \label{fig:heliocentric_orbits}
+\end{figure}
+
+As expected, the $r_{SOI}$ patched-conic satellite gave almost perfect performance compared to the Heliocentric model. This occurs as the outside influences on the patched-conic model are small, and imperfections due to a transient passage between one region of influence and the next are negligible since the switch occurs very quickly. This demonstrates the effectiveness of the patched model, which is significantly cheaper than the Heliocentric or other more refined propagators. Since the orbit of the $r_{SOI}$ satellite matched very well with that of the Heliocentric satellite, the former has been excluded from the rest of the discussion.
+
+From Figure~\ref{fig:heliocentric_orbits}, we see that the best (non $r_{SOI}$) orbital approximation is given by the \SI{200000}{\kilo\metre} satellite (purple), which is closest to the Heliocentric (green) orbit. The \SI{50000}{\kilo\metre} satellite (cyan) gives the worst approximation, as the model is switched to Sun-centric too early (when the satellite is still under heavy influence from the earth). This is because the switching radius is lower than the calculated value for Earth's SOI, given above. The \SI{1e7}{\kilo\metre} satellite (red) gives worse performance than the \SI{200000}{\kilo\metre} satellite, but better than the \SI{50000}{\kilo\metre}. Its switching time occcurs too late, leaving the satellite under Earth's influence when the Sun would represent the predominant force on it. This occurs as the satellite is well-outside the SOI of the Earth at the moment of switching (about 10 times further). This also explains why the discrepancy is larger when compared to the $r_{SOI}$ satellite. The results are reinforced by Figure~\ref{fig:radii_plots}, which plots the orbital distance from the Sun for each of the four satellites.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=\linewidth]{LaTeX/Figures/All_Radius_From_Sun.jpg}
+    \caption{Orbital distance from the Sun (\si{\kilo\metre}) plotted for the \SI{50000}{\kilo\metre} (cyan), \SI{200000}{\kilo\metre} (green), and \SI{1e7}{\kilo\metre} (black) patched-conic satellites, benchmarked against the Heliocentric (magenta) satellite.}
+    \label{fig:radii_plots}
+\end{figure}
+
+This figure shows the expected oscillatory curves for satellites in elliptical orbits. From this graph, it is even clearer than the \SI{200000}{\kilo\metre} satellite (green) matches the Heliocentric (magenta) satellite the best, followed by the \SI{1e7}{\kilo\metre} (black) and \SI{50000}{\kilo\metre} satellites (cyan).
+
+\section{Conclusion} \label{sec:conclusion}
+
+This document reported on a series of numerical experiments designed to explore the capabilities of the STK software package, from basic orbital propagation to simple manoeuvre planning. All figures, source latex code, source data files and source STK is made available at the supporting repository:
+
+\begin{center}
+    \href{https://github.com/ClouD-161803/MAE341-Project2.git}{ClouD-161803/MAE341-Project2}.
+\end{center}
+
+In Section~\ref{sec:orbits}, we analysed satellites in LEO, MEO, HEO, and GSO. The LEO experiment (Section~\ref{subsec:LEO}) successfully modelled orbital decay, correlating higher $C_d$ values with faster re-entry. The HEO analysis (Section~\ref{subsec:HEO}) provided insight into the unique properties of the Molniya orbit, particularly the subtle ground-track resonance caused by $J_2$ perturbations on the orbital period, a phenomenon only captured by the \texttt{HPOP} propagator. The GSO analysis (Section~\ref{subsec:GSO}) quantified the small orbital ``wobble" from lunisolar perturbations and demonstrated STK's utility in computing access times to a ground facility (Figure~\ref{fig:access_times}). This section also included a clear visualisation of the atmospheric drag paradox (Section~\ref{subsec:drag_paradox}), confirming that a satellite under drag accelerates as it decays.
+
+In Section~\ref{sec:orbit_transfers}, we used the \texttt{Astrogator} component to design and contrast orbital manoeuvres. We compared high-fidelity \texttt{HPOP}-targeted results with theoretical two-body calculations for both the Hohmann (Section~\ref{subsec:hohmann}) and bi-elliptic (Section~\ref{subsec:bielliptic}) transfers. The results confirmed that for our $r_2/r_1 \approx 15$ ratio, the Hohmann was vastly superior in time ($\approx \SI{18}{\hour}$ vs $\approx \SI{5.5}{\day}$), while the bi-elliptic offered only a negligible, theory-predicted $\Delta V$ saving of $\approx \SI{20}{\metre\per\second}$. The inclination change experiment (Section~\ref{subsec:inclination}) highlighted the extraordinary $\Delta V$ cost ($\approx \SI{10.77}{\kilo\metre\per\second}$) of a 90-degree plane change in LEO.
+
+Finally, in Section~\ref{sec:soi}, we investigated the Sphere of Influence. We tested the patched-conic approximation, finding that the trajectory's accuracy is highly dependent on the switching radius, with the best result at the value of $r_{ROI}$ (Figure~\ref{fig:radii_plots} and Appendix~\ref{appendix}). This confirmed the limitations of the approximation compared to a full heliocentric propagator, and reinforced the importance of the calculated $r_{SOI} \approx \SI{9.25e5}{\kilo\metre}$. Overall, these exercises provided practical validation of orbital mechanics theory and effectively highlighted the crucial differences between simplified analytical models and high-fidelity numerical simulation.
+
+This project served as a valuable exercise in applying theoretical concepts to a practical, high-fidelity software environment. The author was delighted in discovering the capabilities and power of the STK software package, and is eager to apply it to plan more complex missions in the future.
+
+\printbibliography
+
+\newpage 
+\appendix
+
+\section{Plots for the SOI orbit} \label{appendix}
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=\linewidth]{LaTeX/Figures/ROI_Orbit.png}
+    \caption{Orbit of the $r_{SOI}$ (blue) patched-conic satellite benchmarked against the Heliocentric (green) satellite. The orbit of the Earth around the Sun is also plotted (dashed line). The Sun is plotted as the bright spot in the middle of the picture.}
+    \label{fig:roi_orbit}
+\end{figure}
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=\linewidth]{LaTeX/Figures/ROI_Radius_From_Sun.jpg}
+    \caption{Orbital distance from the Sun (\si{\kilo\metre}) plotted for the $r_{SOI}$ (black) patched-conic satellite against the Heliocentric (green) satellite.}
+    \label{fig:roi_radius_plot}
+\end{figure}
+
+\end{document}
