@@ -1,0 +1,169 @@
+[Analytical Graphics, Inc]
+WorkbookVersion=9.0
+Title=Operation_Midnight_Hammer
+Description=
+ApplicationVersion=12.10.0
+Scenario=YES
+ActiveMDIState=FALSE
+[WorkState_v1_2]
+ptn_Child1=Frames
+[WorkState_v1_2.Frames]
+ptn_Child1=MainFrame
+ptn_Child2=ChildFrames
+[WorkState_v1_2.Frames.MainFrame]
+WindowPlacement=MCAAAAAACAAAAAAADAAAAAAAAADIPPPPAADIPPPPPPPPPPPPPPPPPPPPLEAAAAAACAAAAAAALJFAAAAAGDDAAAAA
+Title=Operation_Midnight_Hammer - STK 12 - 3D Graphics 1 - Earth
+[WorkState_v1_2.Frames.ChildFrames]
+ptn_Child1=Document-0
+ptn_Child2=Document-1
+ptn_Child3=Document-2
+ptn_Child4=Document-3
+[WorkState_v1_2.Frames.ChildFrames.Document-0]
+ptn_Child1=ViewFrame-0
+[WorkState_v1_2.Frames.ChildFrames.Document-0.ViewFrame-0]
+DocPathName=C:\Program Files\AGI\STK 12\bin\AgUi3DGfxView12.AgUiPi3DGfxView.1
+DocumentString=AgUi3DGfxView.AgUiPi3DGfxView.1
+DocTemplateIndex=0
+WindowPlacement=MCAAAAAAAAAAAAAABAAAAAAAPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPIFAAAAAAAAAAAAAEBJAAAAAINDAAAAA
+IsActiveChildFrame=True
+IsFrameVisible=True
+ptn_Child1=AGI Custom Node Data
+[WorkState_v1_2.Frames.ChildFrames.Document-0.ViewFrame-0.AGI Custom Node Data]
+MapID=1
+SceneType=1
+[WorkState_v1_2.Frames.ChildFrames.Document-1]
+ptn_Child1=ViewFrame-0
+[WorkState_v1_2.Frames.ChildFrames.Document-1.ViewFrame-0]
+DocPathName=C:\Program Files\AGI\STK 12\bin\AgUi2DGfxView12.AgUiPi2DGfxView.1
+DocumentString=AgUi2DGfxView.AgUiPi2DGfxView.1
+DocTemplateIndex=0
+WindowPlacement=MCAAAAAAAAAAAAAABAAAAAAAPPPPPPPPPPPPPPPPIPPPPPPPCOPPPPPPAAAAAAAAAAAAAAAADJFAAAAAINDAAAAA
+IsActiveChildFrame=False
+IsFrameVisible=True
+ptn_Child1=AGI Custom Node Data
+[WorkState_v1_2.Frames.ChildFrames.Document-1.ViewFrame-0.AGI Custom Node Data]
+MapID=1
+[WorkState_v1_2.Frames.ChildFrames.Document-2]
+ptn_Child1=ViewFrame-0
+[WorkState_v1_2.Frames.ChildFrames.Document-2.ViewFrame-0]
+DocPathName=C:\Program Files\AGI\STK 12\bin\AgUiAttrBrowser12.AgUiPiAttrBrowser.1
+DocumentString=AgUiAttrBrowser.AgUiPiAttrBrowser.1
+DocTemplateIndex=0
+WindowPlacement=MCAAAAAAAAAAAAAABAAAAAAAPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPAAAAAAAAAAAAAAAALNAAAAAAEODAAAAA
+IsActiveChildFrame=False
+IsFrameVisible=True
+ProfUISBarID=63000
+ptn_Child1=AGI Custom Node Data
+[WorkState_v1_2.Frames.ChildFrames.Document-2.ViewFrame-0.AGI Custom Node Data]
+objectExpandedState0=/Application/STK/Scenario/Operation_Midnight_Hammer/Aircraft/Tanker_RF4:TRUE
+objectExpandedState1=/Application/STK/Scenario/Operation_Midnight_Hammer:TRUE
+objectExpandedState10=/Application/STK/Scenario/Operation_Midnight_Hammer/Satellite/SpySat5:TRUE
+objectExpandedState11=/Application/STK/Scenario/Operation_Midnight_Hammer/Aircraft/MYTEE_14:TRUE
+objectExpandedState12=/Application/STK/Scenario/Operation_Midnight_Hammer/Satellite/gps-18_svn75:TRUE
+objectExpandedState13=/Application/STK/Scenario/Operation_Midnight_Hammer/Satellite/SpySat4:TRUE
+objectExpandedState14=/Application/STK/Scenario/Operation_Midnight_Hammer/Aircraft/MYTEE_15:TRUE
+objectExpandedState15=/Application/STK/Scenario/Operation_Midnight_Hammer/Aircraft/MYTEE_16:TRUE
+objectExpandedState16=/Application/STK/Scenario/Operation_Midnight_Hammer/Aircraft/MYTEE_17:TRUE
+objectExpandedState17=/Application/STK/Scenario/Operation_Midnight_Hammer/Aircraft/MYTEE_22:TRUE
+objectExpandedState18=/Application/STK/Scenario/Operation_Midnight_Hammer/Aircraft/Tanker_RF6:TRUE
+objectExpandedState19=/Application/STK/Scenario/Operation_Midnight_Hammer/Aircraft/MYTEE_23:TRUE
+objectExpandedState2=/Application/STK/Scenario/Operation_Midnight_Hammer/Aircraft/MYTEE_21:TRUE
+objectExpandedState20=/Application/STK/Scenario/Operation_Midnight_Hammer/Aircraft/Tanker_RF1:TRUE
+objectExpandedState21=/Application/STK/Scenario/Operation_Midnight_Hammer/Aircraft/MYTEE_24:TRUE
+objectExpandedState22=/Application/STK/Scenario/Operation_Midnight_Hammer/Aircraft/MYTEE_25:TRUE
+objectExpandedState23=/Application/STK/Scenario/Operation_Midnight_Hammer/Aircraft/Tanker_RF3:TRUE
+objectExpandedState24=/Application/STK/Scenario/Operation_Midnight_Hammer/Aircraft/MYTEE_26:TRUE
+objectExpandedState25=/Application/STK/Scenario/Operation_Midnight_Hammer/Satellite/gps-16_svn56:TRUE
+objectExpandedState26=/Application/STK/Scenario/Operation_Midnight_Hammer/Aircraft/Tanker_RF2:TRUE
+objectExpandedState27=/Application/STK/Scenario/Operation_Midnight_Hammer/Constellation/GPSConstellation:TRUE
+objectExpandedState28=/Application/STK/Scenario/Operation_Midnight_Hammer/Aircraft/Tanker_RF5:TRUE
+objectExpandedState29=/Application/STK/Scenario/Operation_Midnight_Hammer/Satellite/BDA_Sat:TRUE
+objectExpandedState3=/Application/STK/Scenario/Operation_Midnight_Hammer/Aircraft/MYTEE_11:TRUE
+objectExpandedState30=/Application/STK/Scenario/Operation_Midnight_Hammer/AreaTarget/Iran_Islamic_Rep:TRUE
+objectExpandedState31=/Application/STK/Scenario/Operation_Midnight_Hammer/Satellite/gps-13_svn43:TRUE
+objectExpandedState32=/Application/STK/Scenario/Operation_Midnight_Hammer/CoverageDefinition/CoverageDefinition1:TRUE
+objectExpandedState33=/Application/STK/Scenario/Operation_Midnight_Hammer/Satellite/gps-03_svn69:TRUE
+objectExpandedState34=/Application/STK/Scenario/Operation_Midnight_Hammer/CoverageDefinition/CoverageDefinition1/FigureOfMerit/FigureOfMerit1:TRUE
+objectExpandedState35=/Application/STK/Scenario/Operation_Midnight_Hammer/Satellite/gps-10_svn73:TRUE
+objectExpandedState36=/Application/STK/Scenario/Operation_Midnight_Hammer/Facility/Incirlik_Air_Base:TRUE
+objectExpandedState37=/Application/STK/Scenario/Operation_Midnight_Hammer/Satellite/gps-29_svn57:TRUE
+objectExpandedState38=/Application/STK/Scenario/Operation_Midnight_Hammer/Satellite/gps-08_svn72:TRUE
+objectExpandedState39=/Application/STK/Scenario/Operation_Midnight_Hammer/Facility/Lajes_Field:TRUE
+objectExpandedState4=/Application/STK/Scenario/Operation_Midnight_Hammer/Satellite/gps-25_svn62:TRUE
+objectExpandedState40=/Application/STK/Scenario/Operation_Midnight_Hammer/Facility/Whiteman_AFB:TRUE
+objectExpandedState41=/Application/STK/Scenario/Operation_Midnight_Hammer/Satellite/gps-19_svn59:TRUE
+objectExpandedState42=/Application/STK/Scenario/Operation_Midnight_Hammer/Satellite/gps-07_svn48:TRUE
+objectExpandedState43=/Application/STK/Scenario/Operation_Midnight_Hammer/Facility/Wright_Patterson_AFB:TRUE
+objectExpandedState44=/Application/STK/Scenario/Operation_Midnight_Hammer/Satellite/gps-06_svn67:TRUE
+objectExpandedState45=/Application/STK/Scenario/Operation_Midnight_Hammer/Missile/GBU_57_MOP_F:TRUE
+objectExpandedState46=/Application/STK/Scenario/Operation_Midnight_Hammer/Missile/GBU_57_MOP_N:TRUE
+objectExpandedState47=/Application/STK/Scenario/Operation_Midnight_Hammer/Missile/Tomahawk:TRUE
+objectExpandedState48=/Application/STK/Scenario/Operation_Midnight_Hammer/Satellite/BDA_Sat/Sensor/Sensor1:TRUE
+objectExpandedState49=/Application/STK/Scenario/Operation_Midnight_Hammer/Satellite/gps-21_svn45:TRUE
+objectExpandedState5=/Application/STK/Scenario/Operation_Midnight_Hammer/Satellite/SpySat3:TRUE
+objectExpandedState50=/Application/STK/Scenario/Operation_Midnight_Hammer/Satellite/SpySat1:TRUE
+objectExpandedState51=/Application/STK/Scenario/Operation_Midnight_Hammer/Satellite/gps-05_svn50:TRUE
+objectExpandedState52=/Application/STK/Scenario/Operation_Midnight_Hammer/Satellite/SpySat1/Sensor/Sensor2:TRUE
+objectExpandedState53=/Application/STK/Scenario/Operation_Midnight_Hammer/Satellite/gps-27_svn66:TRUE
+objectExpandedState54=/Application/STK/Scenario/Operation_Midnight_Hammer/Satellite/gps-02_svn61:TRUE
+objectExpandedState55=/Application/STK/Scenario/Operation_Midnight_Hammer/Satellite/gps-04_svn74:TRUE
+objectExpandedState56=/Application/STK/Scenario/Operation_Midnight_Hammer/Satellite/gps-09_svn68:TRUE
+objectExpandedState57=/Application/STK/Scenario/Operation_Midnight_Hammer/Satellite/gps-11_svn78:TRUE
+objectExpandedState58=/Application/STK/Scenario/Operation_Midnight_Hammer/Satellite/gps-14_svn77:TRUE
+objectExpandedState59=/Application/STK/Scenario/Operation_Midnight_Hammer/Satellite/gps-15_svn55:TRUE
+objectExpandedState6=/Application/STK/Scenario/Operation_Midnight_Hammer/Aircraft/MYTEE_12:TRUE
+objectExpandedState60=/Application/STK/Scenario/Operation_Midnight_Hammer/Satellite/gps-20_svn51:TRUE
+objectExpandedState61=/Application/STK/Scenario/Operation_Midnight_Hammer/Satellite/gps-17_svn53:TRUE
+objectExpandedState62=/Application/STK/Scenario/Operation_Midnight_Hammer/Satellite/gps-22_svn44:TRUE
+objectExpandedState63=/Application/STK/Scenario/Operation_Midnight_Hammer/Satellite/gps-28_svn79:TRUE
+objectExpandedState64=/Application/STK/Scenario/Operation_Midnight_Hammer/Satellite/gps-23_svn76:TRUE
+objectExpandedState65=/Application/STK/Scenario/Operation_Midnight_Hammer/Satellite/gps-24_svn65:TRUE
+objectExpandedState66=/Application/STK/Scenario/Operation_Midnight_Hammer/Satellite/gps-26_svn71:TRUE
+objectExpandedState67=/Application/STK/Scenario/Operation_Midnight_Hammer/Satellite/gps-30_svn64:TRUE
+objectExpandedState68=/Application/STK/Scenario/Operation_Midnight_Hammer/Satellite/gps-31_svn52:TRUE
+objectExpandedState69=/Application/STK/Scenario/Operation_Midnight_Hammer/Satellite/gps-32_svn70:TRUE
+objectExpandedState7=/Application/STK/Scenario/Operation_Midnight_Hammer/Satellite/SpySat2:TRUE
+objectExpandedState70=/Application/STK/Scenario/Operation_Midnight_Hammer/SatelliteCollection/HammerEye:TRUE
+objectExpandedState71=/Application/STK/Scenario/Operation_Midnight_Hammer/Ship/ISN_Rahan:TRUE
+objectExpandedState72=/Application/STK/Scenario/Operation_Midnight_Hammer/Ship/USS_Georgia:TRUE
+objectExpandedState73=/Application/STK/Scenario/Operation_Midnight_Hammer/Target/Fordow:TRUE
+objectExpandedState74=/Application/STK/Scenario/Operation_Midnight_Hammer/Target/Isfahan:TRUE
+objectExpandedState75=/Application/STK/Scenario/Operation_Midnight_Hammer/Target/Natanz:TRUE
+objectExpandedState76=/Application/STK/Scenario/Operation_Midnight_Hammer/Satellite/SpySat2/Sensor/Sensor3:TRUE
+objectExpandedState77=/Application/STK/Scenario/Operation_Midnight_Hammer/Satellite/SpySat3/Sensor/Sensor4:TRUE
+objectExpandedState78=/Application/STK/Scenario/Operation_Midnight_Hammer/Satellite/SpySat4/Sensor/Sensor5:TRUE
+objectExpandedState79=/Application/STK/Scenario/Operation_Midnight_Hammer/Satellite/SpySat5/Sensor/Sensor6:TRUE
+objectExpandedState8=/Application/STK/Scenario/Operation_Midnight_Hammer/Aircraft/MYTEE_13:TRUE
+objectExpandedState9=/Application/STK/Scenario/Operation_Midnight_Hammer/Satellite/gps-12_svn58:TRUE
+[WorkState_v1_2.Frames.ChildFrames.Document-3]
+ptn_Child1=ViewFrame-0
+[WorkState_v1_2.Frames.ChildFrames.Document-3.ViewFrame-0]
+DocPathName=C:\Program Files\AGI\STK 12\bin\AgUiTimelineView12.AgUiPiTimelineView.1
+DocumentString=AgUiTimelineView.AgUiPiTimelineView.1
+DocTemplateIndex=0
+WindowPlacement=MCAAAAAAAAAAAAAABAAAAAAAPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPAAAAAAAAAAAAAAAAAAKAAAAAONAAAAAA
+IsActiveChildFrame=False
+IsFrameVisible=True
+ProfUISBarID=63001
+ptn_Child1=AGI Custom Node Data
+[WorkState_v1_2.Frames.ChildFrames.Document-3.ViewFrame-0.AGI Custom Node Data]
+ComponentWellWidth=200.000000000000
+CurrentContentView=Scenario Availability
+CurrentTimeView=Scenario Analysis Period
+FontSize=10.000000000000
+FullViewScaleHeight=87.000000000000
+LabelFontSize=11.000000000000
+RowHeight=20.090909090909
+ShowComponents=True
+ShowFullViewBar=True
+ShowFullViewRuler=True
+ShowGlobalScale=True
+ShowGlobalTimeline=True
+ShowIntervalLabels=True
+ShowStartTime=False
+ShowStopTime=False
+ShowToolbar=True
+ShowViewportRuler=True
+Theme=Default
+Title=Timeline 1
+ViewportScaleHeight=22.000000000000

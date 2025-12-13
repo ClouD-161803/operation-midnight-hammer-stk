@@ -1,0 +1,179 @@
+stk.v.12.0
+WrittenBy    STK_v12.10.0
+
+BEGIN CoverageDefinition
+
+    Name		 CoverageDefinition1
+
+    BEGIN GridDefinition
+
+        VersionIndicator		 20080103
+        BEGIN CustomRegions
+            AreaTarget		 AreaTarget/Iran_Islamic_Rep
+            CheckForHoles		 Yes
+            AllowSmallRegionIsotropicAlgorithm		
+        END CustomRegions
+        LatResolution		  1.0000000000000000e+00
+        LonResolution		  1.0000000000000000e+00
+        UsePolarRegions		 Yes
+        GridClass		 Target
+        PointLocationMethod		 EqualArea
+        CustomPtAltMethod		 ValueFromFile
+        CentralBody		 Earth
+        GroundAltMethod		 UseAltType
+        GroundAlt		 0
+        AltitudeMethod		 Altitude
+        BEGIN AltitudeList
+            0.000000
+        END AltitudeList
+
+    END GridDefinition
+
+    BEGIN AccessDefinition
+
+        DataRetention		 AllData
+        Convergence		 0.005
+        AbsValueConvergence		 1e-14
+        RelValueConvergence		 1e-08
+        MaxTimeStep		 360
+        MinTimeStep		 0.01
+        UseLightTimeDelay		 No
+        TimeSense		 PerAsset
+        DetectEventsUsingSamplesOnly		 No
+        LastRequestedToBeComputedInParallel		 No
+        AutoRecompute		 Yes
+        UseAllAssetAccess		 No
+        AssetSatisType		 AtLeast
+        AssetSatisThreshold		 1
+        AccessSaveMode		 SaveWith
+        RegionAccessAccel		 Auto
+
+    END AccessDefinition
+
+    BEGIN AssetList
+
+        Satellite/SpySat1/Sensor/Sensor2		 Active
+        Required		 No
+        SatelliteCollection/HammerEye/Subset/AllSensors		 Active
+        Required		 No
+        UseConstConstraints		 No
+        BEGIN SubAssets
+            Shell_1_P1_S1.Sensor.Sensor2		 Active
+            Required		 No
+            Shell_1_P1_S2.Sensor.Sensor2		 Active
+            Required		 No
+            Shell_1_P2_S1.Sensor.Sensor2		 Active
+            Required		 No
+            Shell_1_P2_S2.Sensor.Sensor2		 Active
+            Required		 No
+            Shell_1_P3_S1.Sensor.Sensor2		 Active
+            Required		 No
+            Shell_1_P3_S2.Sensor.Sensor2		 Active
+            Required		 No
+            Shell_1_P4_S1.Sensor.Sensor2		 Active
+            Required		 No
+            Shell_1_P4_S2.Sensor.Sensor2		 Active
+            Required		 No
+            Shell_1_P5_S1.Sensor.Sensor2		 Active
+            Required		 No
+            Shell_1_P5_S2.Sensor.Sensor2		 Active
+            Required		 No
+        END SubAssets
+        Satellite/SpySat2/Sensor/Sensor3		 Active
+        Required		 No
+        Satellite/SpySat3/Sensor/Sensor4		 Active
+        Required		 No
+        Satellite/SpySat4/Sensor/Sensor5		 Active
+        Required		 No
+        Satellite/SpySat5/Sensor/Sensor6		 Active
+        Required		 No
+
+    END AssetList
+
+    BEGIN Interval
+
+        AccStart		 21 Jun 2025 04:00:00.000000000
+        AccStop		 22 Jun 2025 19:00:00.000000000
+        UseScenarioInterval		 No
+        AccIntervalPtr		
+        BEGIN EVENTINTERVAL
+            EventInterval		
+            BEGIN EVENTINTERVAL
+                Type		 EVENTINTERVAL_LINKTO
+                Name		 AnalysisInterval
+                AbsolutePath		 Scenario
+            END EVENTINTERVAL
+            IntervalState		 Implicit
+        END EVENTINTERVAL
+
+
+    END Interval
+
+    BEGIN SavedAccesses
+        FileName		 CoverageDefinition1.cva
+    END SavedAccesses
+
+    BEGIN Extensions
+
+        BEGIN ExternData
+        END ExternData
+
+        BEGIN ADFFileData
+        END ADFFileData
+
+        BEGIN Desc
+            BEGIN ShortText
+
+            END ShortText
+            BEGIN LongText
+
+            END LongText
+        END Desc
+
+        BEGIN Crdn
+        END Crdn
+
+        BEGIN Graphics
+
+            BEGIN Attributes
+
+                GridMarkerStyle		 1
+                GridColor		 #ffffff
+                ProgressColor		 #00ffff
+                SatisfactionColor		 #ffd700
+                GridTranslucency		 0.3
+                SatisfactionTranslucency		 0.7000000000000001
+
+            END Attributes
+
+            BEGIN Graphics
+
+                Show		 Yes
+                ShowGrid		 Yes
+                ShowRegions		 Yes
+                ShowRegionsText		 Yes
+                ShowPoints		 Yes
+                FillPoints		 Yes
+                ShowProgress		 Yes
+                ShowSatisfaction		 Yes
+
+            END Graphics
+        END Graphics
+
+        BEGIN VO
+        END VO
+
+    END Extensions
+
+    BEGIN SubObjects
+
+        Class FigureOfMerit
+
+            FigureOfMerit1		
+
+        END Class
+
+    END SubObjects
+
+END CoverageDefinition
+

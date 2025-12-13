@@ -1,0 +1,339 @@
+stk.v.12.0
+WrittenBy    STK_v12.10.0
+
+BEGIN SatelliteCollection
+
+Name		 HammerEye
+
+BEGIN DefinitionData
+    StartTime		 21 Jun 2025 04:00:00.000000
+    StopTime		 22 Jun 2025 19:00:00.000000
+    SmartInterval		
+    BEGIN EVENTINTERVAL
+        EventInterval		
+        BEGIN EVENTINTERVAL
+            Type		 EVENTINTERVAL_LINKTO
+            Name		 AnalysisInterval
+            AbsolutePath		 Scenario
+        END EVENTINTERVAL
+        IntervalState		 Implicit
+    END EVENTINTERVAL
+
+    CentralBody		 Earth
+    BEGIN Walker
+        AutoSubsets		 ShellsAndPlanes
+        NumShells		 1
+        BEGIN Shell
+            Name		 "1"
+            Type		 "Delta"
+            NumPlanes		 5
+            NumSatsPerPlane		 2
+            InterPlanePhaseOffset		 4
+            Epoch		 "2025-06-21T04:00:00.000000000"
+            SemimajorAxis		  6.8781399999999935e+06
+            Eccentricity		  5.9318844754594234e-12
+            Inclination		  1.1816807997821128e+00
+            ArgumentOfPerigee		  0.0000000000000000e+00
+            RAAN		  3.9079667281405022e+00
+            MeanAnomaly		  5.6610434268267625e-03
+            ShellPropagator		 J2Perturbation
+            OrbElemCoordSys		 TEMEOfEpoch
+            OrbElemCoordSysEpoch		 "1949-12-31T22:09:46.866246223"
+            PropagationCoordSys		 ICRF
+        END Shell
+    END Walker
+    NumConstellationEntries		 10
+    MaxNumErrorsToReport		 20
+    UseRoutingFile		 Off
+END DefinitionData
+
+BEGIN TemplateAssociations
+    SaveEntryTemplateAssociations		 Off
+
+    BEGIN Association
+        Subset		 "Shell_1"
+        Template		 Satellite/SpySat1
+    END Association
+
+END TemplateAssociations
+
+
+BEGIN Extensions
+
+    BEGIN ExternData
+    END ExternData
+
+    BEGIN ADFFileData
+    END ADFFileData
+
+    BEGIN Desc
+    END Desc
+
+    BEGIN Crdn
+    END Crdn
+
+    BEGIN Graphics
+        ShowAll		 Yes
+        Hide2D		 No
+        Hide3D		 No
+        ShowMetaDataInPick		 Yes
+        OrbitLinesTimeStep		 60
+        OrbitLinesType		 OnePeriod
+
+        BEGIN SubsetGfx
+            SubsetName		 AllSatellites
+            Show		 Yes
+            Color		 #ffa500
+            ColorAlpha		  1.0000000000000000e+00
+            MarkerStyle		 0
+            ShowMarker		 Yes
+            MarkerPixelSize		  5.0000000000000000e+00
+            ShowLabel		 Yes
+            ShowOrbits		 Yes
+            Font2d		 0
+        END SubsetGfx
+
+
+        BEGIN SubsetGfx
+            SubsetName		 AllSensors
+            Show		 Yes
+            Color		 #ffa500
+            ColorAlpha		  1.0000000000000000e+00
+            MarkerStyle		 0
+            ShowMarker		 Yes
+            MarkerPixelSize		  5.0000000000000000e+00
+            ShowLabel		 Yes
+            ShowOrbits		 Yes
+            Font2d		 0
+        END SubsetGfx
+
+
+        BEGIN SubsetGfx
+            SubsetName		 Plane_1
+            Show		 Yes
+            Color		 #ffa500
+            ColorAlpha		  1.0000000000000000e+00
+            MarkerStyle		 0
+            ShowMarker		 Yes
+            MarkerPixelSize		  5.0000000000000000e+00
+            ShowLabel		 Yes
+            ShowOrbits		 Yes
+            Font2d		 0
+        END SubsetGfx
+
+
+        BEGIN SubsetGfx
+            SubsetName		 Plane_2
+            Show		 Yes
+            Color		 #ffa500
+            ColorAlpha		  1.0000000000000000e+00
+            MarkerStyle		 0
+            ShowMarker		 Yes
+            MarkerPixelSize		  5.0000000000000000e+00
+            ShowLabel		 Yes
+            ShowOrbits		 Yes
+            Font2d		 0
+        END SubsetGfx
+
+
+        BEGIN SubsetGfx
+            SubsetName		 Plane_3
+            Show		 Yes
+            Color		 #ffa500
+            ColorAlpha		  1.0000000000000000e+00
+            MarkerStyle		 0
+            ShowMarker		 Yes
+            MarkerPixelSize		  5.0000000000000000e+00
+            ShowLabel		 Yes
+            ShowOrbits		 Yes
+            Font2d		 0
+        END SubsetGfx
+
+
+        BEGIN SubsetGfx
+            SubsetName		 Plane_4
+            Show		 Yes
+            Color		 #ffa500
+            ColorAlpha		  1.0000000000000000e+00
+            MarkerStyle		 0
+            ShowMarker		 Yes
+            MarkerPixelSize		  5.0000000000000000e+00
+            ShowLabel		 Yes
+            ShowOrbits		 Yes
+            Font2d		 0
+        END SubsetGfx
+
+
+        BEGIN SubsetGfx
+            SubsetName		 Plane_5
+            Show		 Yes
+            Color		 #ffa500
+            ColorAlpha		  1.0000000000000000e+00
+            MarkerStyle		 0
+            ShowMarker		 Yes
+            MarkerPixelSize		  5.0000000000000000e+00
+            ShowLabel		 Yes
+            ShowOrbits		 Yes
+            Font2d		 0
+        END SubsetGfx
+
+
+        BEGIN SubsetGfx
+            SubsetName		 Shell_1
+            Show		 Yes
+            Color		 #ffa500
+            ColorAlpha		  1.0000000000000000e+00
+            MarkerStyle		 0
+            ShowMarker		 Yes
+            MarkerPixelSize		  5.0000000000000000e+00
+            ShowLabel		 Yes
+            ShowOrbits		 Yes
+            Font2d		 0
+        END SubsetGfx
+
+    END Graphics
+
+END Extensions
+
+BEGIN SubObjects
+
+    BEGIN Subset
+
+        Name		 AllSatellites
+
+        BEGIN DefinitionData
+            ClassName		 "Satellite"
+            IsAutoGenerated		 True
+            SubsetType		 AllEntries
+        END DefinitionData
+
+    END Subset
+
+
+    BEGIN Subset
+
+        Name		 AllSensors
+
+        BEGIN DefinitionData
+            ClassName		 "Sensor"
+            IsAutoGenerated		 True
+            SubsetType		 AllEntries
+        END DefinitionData
+
+    END Subset
+
+
+    BEGIN Subset
+
+        Name		 Plane_1
+
+        BEGIN DefinitionData
+            ClassName		 "Satellite"
+            IsAutoGenerated		 True
+            SubsetType		 CreatedByDefn
+            BEGIN Query
+                BEGIN AND
+                    StringMatch		 "Shell" Eq "1" NoMatchCase Equals
+                    StringMatch		 "Plane" Eq "1" NoMatchCase Equals
+                END AND
+            END Query
+        END DefinitionData
+
+    END Subset
+
+
+    BEGIN Subset
+
+        Name		 Plane_2
+
+        BEGIN DefinitionData
+            ClassName		 "Satellite"
+            IsAutoGenerated		 True
+            SubsetType		 CreatedByDefn
+            BEGIN Query
+                BEGIN AND
+                    StringMatch		 "Shell" Eq "1" NoMatchCase Equals
+                    StringMatch		 "Plane" Eq "2" NoMatchCase Equals
+                END AND
+            END Query
+        END DefinitionData
+
+    END Subset
+
+
+    BEGIN Subset
+
+        Name		 Plane_3
+
+        BEGIN DefinitionData
+            ClassName		 "Satellite"
+            IsAutoGenerated		 True
+            SubsetType		 CreatedByDefn
+            BEGIN Query
+                BEGIN AND
+                    StringMatch		 "Shell" Eq "1" NoMatchCase Equals
+                    StringMatch		 "Plane" Eq "3" NoMatchCase Equals
+                END AND
+            END Query
+        END DefinitionData
+
+    END Subset
+
+
+    BEGIN Subset
+
+        Name		 Plane_4
+
+        BEGIN DefinitionData
+            ClassName		 "Satellite"
+            IsAutoGenerated		 True
+            SubsetType		 CreatedByDefn
+            BEGIN Query
+                BEGIN AND
+                    StringMatch		 "Shell" Eq "1" NoMatchCase Equals
+                    StringMatch		 "Plane" Eq "4" NoMatchCase Equals
+                END AND
+            END Query
+        END DefinitionData
+
+    END Subset
+
+
+    BEGIN Subset
+
+        Name		 Plane_5
+
+        BEGIN DefinitionData
+            ClassName		 "Satellite"
+            IsAutoGenerated		 True
+            SubsetType		 CreatedByDefn
+            BEGIN Query
+                BEGIN AND
+                    StringMatch		 "Shell" Eq "1" NoMatchCase Equals
+                    StringMatch		 "Plane" Eq "5" NoMatchCase Equals
+                END AND
+            END Query
+        END DefinitionData
+
+    END Subset
+
+
+    BEGIN Subset
+
+        Name		 Shell_1
+
+        BEGIN DefinitionData
+            ClassName		 "Satellite"
+            IsAutoGenerated		 True
+            SubsetType		 CreatedByDefn
+            BEGIN Query
+                StringMatch		 "Shell" Eq "1" NoMatchCase Equals
+            END Query
+        END DefinitionData
+
+    END Subset
+
+
+END SubObjects
+END SatelliteCollection
+
