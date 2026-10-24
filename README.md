@@ -1,4 +1,4 @@
-# MAE341-FinalProject
+# Operation Midnight Hammer STK
 STK Model of the US DOW Operation Midnight Hammer. See demonstration [video](https://youtu.be/lg5xeCYW00Q?si=zAvV90bTMskKd_WN).
 
 ![Final Result](/LaTeX/Figures/FinalResuult.png)
